@@ -55,14 +55,12 @@ class FeiShuPlugin(NotificationPlugin):
         project = event.group.project
         title = u"New alert from {}".format(project.slug)
 
-        data = {
-            "title": title,
-            "text": u"#### {title} \n > {message} [href]({url})".format(
-                title=title,
-                message=event.message,
-                url=u"{}events/{}/".format(group.get_absolute_url(), event.event_id),
-            )
-        }
+        data = {"title": title, "msg_type": "text",
+                "content": {"text": u"#### {title} \n > {message} [href]({url})".format(
+                    title=title,
+                    message=event.message,
+                    url=u"{}events/{}/".format(group.get_absolute_url(), event.event_id),
+                )}}
         requests.post(
             url=send_url,
             headers={"Content-Type": "application/json"},
