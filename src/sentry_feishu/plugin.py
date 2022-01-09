@@ -8,7 +8,7 @@ from sentry.plugins.bases.notify import NotificationPlugin
 import sentry_feishu
 from .forms import FeiShuOptionsForm
 
-FeiShuTalk_API = "https://open.feishu.cn/open-apis/bot/hook/{token}"
+FeiShuTalk_API = "https://open.feishu.cn/open-apis/bot/v2/hook/{token}"
 
 
 class FeiShuPlugin(NotificationPlugin):
@@ -56,13 +56,12 @@ class FeiShuPlugin(NotificationPlugin):
         title = u"New alert from {}".format(project.slug)
 
         data = {"title": title, "msg_type": "text",
-                "content": {"text": u"#### {title} \n > {message} [href]({url})".format(
+                "content": {"text": "#### {title} \n > {message} [href]({url})".format(
                     title=title,
                     message=event.message,
                     url=u"{}events/{}/".format(group.get_absolute_url(), event.event_id),
                 )}}
         requests.post(
-            url=send_url,
-            headers={"Content-Type": "application/json"},
-            data=json.dumps(data).encode("utf-8")
+            send_url,
+            json=data
         )

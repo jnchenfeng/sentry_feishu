@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="sentry-feishu",
-    version='0.0.4',
+    version='0.0.7',
     author='feng.chen',
     author_email='jnchenfeng123@163.com',
     url='https://github.com/jnchenfeng/sentry_feishu',
