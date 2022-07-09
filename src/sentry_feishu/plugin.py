@@ -53,12 +53,13 @@ class FeiShuPlugin(NotificationPlugin):
         access_token = self.get_option('access_token', group.project)
         send_url = FeiShuTalk_API.format(token=access_token)
         project = event.group.project
-        title = u"New alert from {}".format(project.slug)
-
+        title = event.title.encode("utf-8").decode("utf-8")
+        project_name = project.get_full_name().encode("utf-8").decode("utf-8")
         data = {"title": title, "msg_type": "text",
-                "content": {"text": "#### {title} \n > {message} [href]({url})".format(
+                "content": {"text": "#### {title} \n > {project_name};{message} [href]({url})".format(
                     title=title,
                     message=event.message,
+                    project_name=project_name,
                     url=u"{}events/{}/".format(group.get_absolute_url(), event.event_id),
                 )}}
         requests.post(
